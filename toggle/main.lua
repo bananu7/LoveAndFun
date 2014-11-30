@@ -31,33 +31,6 @@ end
 function love.load(arg)
   if arg[#arg] == "-debug" then require("mobdebug").start() end
   
-  local pixelcode = [[
-      vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
-      {
-          vec4 texcolor = Texel(texture, texture_coords);
-          //return texcolor * color;
-          //color *= clamp(screen_coords.x / 600, 0, 1);
-          //color *= clamp(abs(screen_coords.x-400) / 200, 0, 1);
-          //color *= clamp(abs(screen_coords.y-300) / 150, 0, 1);
-          
-          float x = screen_coords.x - 400;
-          float y = screen_coords.y - 300;
-          float len = sqrt(x*x + y*y);
-          color *= clamp(len / 200, 0, 1);
-          
-          return color;
-      }
-  ]]
-
-  local vertexcode = [[
-      vec4 position( mat4 transform_projection, vec4 vertex_position )
-      {
-          return transform_projection * vertex_position;
-      }
-  ]]
-
-  shader = love.graphics.newShader(pixelcode, vertexcode)
-  
   decodeLevels()
   map = levels[1]
 end
@@ -110,14 +83,6 @@ function love.mousereleased(x, y, button)
 end
 
 function love.draw()
-  --love.graphics.setShader(shader)
-  
-  --love.graphics.setColor(20,255,0,128)
-  --love.graphics.print("Hello Ruda", 100, 100)
-  
-  --local mx = love.mouse.getX() 
-  --local my = love.mouse.getY()
-
   local white = {255,255,255,255}
   local black = {0,0,0,255}
   
